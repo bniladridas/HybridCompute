@@ -28,7 +28,7 @@ magick convert -size 256x256 xc:red test_images/test.jpg
 ./build/preprocess test_images test_images/tiles
 cp test_images/tiles/* test_images/upscaled/
 for i in {0..15}; do mv test_images/upscaled/test_tile_$i.jpg test_images/upscaled/tile_$i.jpg; done
-python3 scripts/stitch.py
+python3 scripts/stitch.py test_images/upscaled test_images/final_output.jpg
 test -f test_images/final_output.jpg && echo "E2E test passed"
 
 echo "Cleaning up..."
