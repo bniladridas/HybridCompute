@@ -47,9 +47,9 @@ print("Mock upscale done")
 
 # Stitch
 if runner_os == 'Windows':
-    subprocess.run([sys.executable, 'scripts/stitch.py'])
+    subprocess.run([sys.executable, 'scripts/stitch.py', 'test_images/upscaled', 'test_images/final_output.jpg'])
 else:
-    subprocess.run([sys.executable, '-m', 'coverage', 'run', '--source=scripts', 'scripts/stitch.py'])
+    subprocess.run([sys.executable, '-m', 'coverage', 'run', '--source=scripts', 'scripts/stitch.py', 'test_images/upscaled', 'test_images/final_output.jpg'])
 
 print("Stitch done")
 
