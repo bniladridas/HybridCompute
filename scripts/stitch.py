@@ -8,7 +8,7 @@ sys.stdout.flush()
 
 def stitch_tiles(input_dir, output_path):
     tiles = []
-    tile_files = sorted([f for f in os.listdir(input_dir) if f.startswith("tile_") and f.endswith(".jpg")])
+    tile_files = sorted([f for f in os.listdir(input_dir) if f.startswith("tile_") and f.endswith(".jpg")], key=lambda f: int(f.partition('_')[2].partition('.')[0]))
     if not tile_files:
         raise ValueError("No tile files found in input directory")
     for tile_file in tile_files:
