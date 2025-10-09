@@ -2,6 +2,8 @@
 #include <iostream>
 #include <vector>
 #include <filesystem>
+#include <string>
+#include <exception>
 #include "utils.hpp"  // Helper functions
 
 namespace fs = std::filesystem;
@@ -14,7 +16,15 @@ int main(int argc, char** argv) {
 
     std::string input_folder = argv[1];
     std::string output_folder = argv[2];
-    int tile_size = (argc == 4) ? std::stoi(argv[3]) : 64;
+    int tile_size = 64;
+    if (argc == 4) {
+        try {
+            tile_size = std::stoi(argv[3]);
+        } catch (const std::exception& e) {
+            std::cerr << "Error: Invalid tile_size value provided: " << argv[3] << std::endl;
+            return -1;
+        }
+    }
     if (tile_size <= 0) {
         std::cerr << "Error: tile_size must be positive\n";
         return -1;

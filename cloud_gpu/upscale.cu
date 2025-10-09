@@ -1,6 +1,8 @@
 #include <opencv2/opencv.hpp>
 #include <iostream>
 #include <cuda_runtime.h>
+#include <string>
+#include <exception>
 
 __device__ float cubicInterpolate(float p0, float p1, float p2, float p3, float t) {
     return p1 + 0.5f * t * (2.0f * p0 - 5.0f * p1 + 4.0f * p2 - p3 + t * (3.0f * (p1 - p2) + p3 - p0));
@@ -60,7 +62,15 @@ int main(int argc, char** argv) {
     }
     std::string input_file = (argc > 1) ? argv[1] : "input_tile.jpg";
     std::string output_file = (argc > 2) ? argv[2] : "output_tile.jpg";
-    int scale = (argc > 3) ? std::stoi(argv[3]) : 2;
+    int scale = 2;
+    if (argc > 3) {
+        try {
+            scale = std::stoi(argv[3]);
+        } catch (const std::exception& e) {
+            std::cerr << "Error: Invalid scale value provided: " << argv[3] << std::endl;
+            return -1;
+        }
+    }
     if (scale <= 1) {
         std::cerr << "Error: scale must be greater than 1\n";
         return -1;
