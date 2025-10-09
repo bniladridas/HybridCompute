@@ -54,8 +54,17 @@ __global__ void bicubicUpscaleKernel(uchar* input, uchar* output, int in_w, int 
     } while (0)
 
 int main(int argc, char** argv) {
+    if (argc > 4) {
+        std::cerr << "Usage: ./upscale [input_file] [output_file] [scale]\n";
+        return -1;
+    }
     std::string input_file = (argc > 1) ? argv[1] : "input_tile.jpg";
     std::string output_file = (argc > 2) ? argv[2] : "output_tile.jpg";
+    int scale = (argc > 3) ? std::stoi(argv[3]) : 2;
+    if (scale <= 1) {
+        std::cerr << "Error: scale must be greater than 1\n";
+        return -1;
+    }
 
     // Load the input image
     cv::Mat input = cv::imread(input_file);
@@ -67,7 +76,6 @@ int main(int argc, char** argv) {
     // Calculate dimensions
     int in_w = input.cols;
     int in_h = input.rows;
-    int scale = 2;  // Upscaling factor
     int out_w = in_w * scale;
     int out_h = in_h * scale;
 

@@ -17,9 +17,9 @@ def test_stitch_tiles_success(tmp_path):
     tile_count = 16
     tile_size = (10, 10)
     create_dummy_tiles(input_dir, tile_count, tile_size)
-    
-    stitch_tiles(str(input_dir), str(output_path), tile_count)
-    
+
+    stitch_tiles(str(input_dir), str(output_path))
+
     assert output_path.exists()
     stitched = cv2.imread(str(output_path))
     assert stitched is not None
@@ -31,6 +31,6 @@ def test_stitch_tiles_missing_tile(tmp_path):
     output_path = tmp_path / "output.jpg"
     tile_count = 16
     create_dummy_tiles(input_dir, tile_count - 1)  # Missing last tile
-    
-    with pytest.raises(ValueError, match="Could not load tile_15.jpg"):
-        stitch_tiles(str(input_dir), str(output_path), tile_count)
+
+    with pytest.raises(ValueError, match="not a perfect square"):
+        stitch_tiles(str(input_dir), str(output_path))

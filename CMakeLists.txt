@@ -4,6 +4,11 @@ project(hybrid-compute LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Add conda environment to CMAKE_PREFIX_PATH for OpenCV
+if(APPLE)
+    set(CMAKE_PREFIX_PATH "$ENV{HOME}/miniconda3" ${CMAKE_PREFIX_PATH})
+endif()
+
 find_package(OpenCV REQUIRED)
 find_package(CUDAToolkit)
 

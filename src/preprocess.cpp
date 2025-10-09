@@ -7,13 +7,18 @@
 namespace fs = std::filesystem;
 
 int main(int argc, char** argv) {
-    if (argc != 3) {
-        std::cerr << "Usage: ./preprocess <input_folder> <output_folder>\n";
+    if (argc < 3 || argc > 4) {
+        std::cerr << "Usage: ./preprocess <input_folder> <output_folder> [tile_size]\n";
         return -1;
     }
 
     std::string input_folder = argv[1];
     std::string output_folder = argv[2];
+    int tile_size = (argc == 4) ? std::stoi(argv[3]) : 64;
+    if (tile_size <= 0) {
+        std::cerr << "Error: tile_size must be positive\n";
+        return -1;
+    }
 
     // Create output folder if it does not exist
     if (!fs::exists(output_folder)) {
@@ -27,8 +32,6 @@ int main(int argc, char** argv) {
                 std::cerr << "Error loading image: " << entry.path() << "\n";
                 continue;
             }
-
-            int tile_size = 64;
             std::vector<cv::Mat> tiles = splitImageIntoTiles(image, tile_size);
 
             // Save tiles to output folder
